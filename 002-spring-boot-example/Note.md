@@ -1,11 +1,13 @@
 # Spring Boot 3 Learning
 
-## To develop a simple backend system with CRUD APIs
+## To develop a simple backend system with CRUD APIs with Docker and connection with PSQL
 
-Learn link:
+Learning link:
 https://www.youtube.com/watch?v=-mwpoE0x0JQ
 
 Note:
+- Use spring initializr create a project with Maven, Java, and Spring Boot 3;
+- Check all dependency in pom.xml;
 - Open a file named "docker-compose.yml" at the root of project;
 - Always make sure the indentation is correct!! (i.e. docker-compose.yml);
 - set up the docker-compose.yml and connect to docker;
