@@ -2,7 +2,6 @@
 
 ### This project demonstrates the implementation of security using Spring Boot 3.0 and JSON Web Tokens (JWT). It includes the following features:
 
-Learning Link: https://www.youtube.com/watch?v=KxqlJblhzfI
 
 ## Features
 - User registration and login with JWT authentication
@@ -26,7 +25,7 @@ To get started with this project, you will need to have the following installed 
 - 
 To build and run the project, follow these steps:
 - Clone the repository: git clone git@github.com:blackwolfhk/Practice_Spring_Boot.git
-- Navigate to the project directory: cd spring-boot-security-jwt
+- Navigate to the project directory: cd 003-spring-boot-security
 - Add database "jwt_security" to postgres
 - Build the project: mvn clean install
 - Run the project: mvn spring-boot:run
