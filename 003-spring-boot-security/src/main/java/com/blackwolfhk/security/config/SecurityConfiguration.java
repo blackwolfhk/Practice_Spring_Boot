@@ -23,20 +23,20 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf()
-                .disable()
+                .disable() // Disables CSRF protection
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/**")
+                .requestMatchers("/api/v1/auth/**") // Allows all requests to endpoints that match "/api/v1/auth/**"
                 .permitAll()
                 .anyRequest()
-                .authenticated()
+                .authenticated() // Requires authentication for all other requests
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Sets session creation policy to stateless
                 .and()
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .authenticationProvider(authenticationProvider) // Registers the AuthenticationProvider bean
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // Adds JwtAuthenticationFilter before UsernamePasswordAuthenticationFilter
 
-
+        // Returns the configured SecurityFilterChain
         return http.build();
     }
 }
