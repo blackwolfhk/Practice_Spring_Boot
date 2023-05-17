@@ -4,7 +4,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class GreetingController {
@@ -27,6 +29,11 @@ public class GreetingController {
         tags1.add("tag2");
         obj1.setTags(tags1);
 
+        Map<String, Integer> data1 = new HashMap<>();
+        data1.put("key1", 1);
+        data1.put("key2", 2);
+        obj1.setData(data1);
+
         myObjects.add(obj1);
 
         MyObject obj2 = new MyObject();
@@ -43,6 +50,12 @@ public class GreetingController {
         tags2.add("tag4");
         obj2.setTags(tags2);
 
+        Map<String, Integer> data2 = new HashMap<>();
+        data2.put("key3", 3);
+        data2.put("key4", 4);
+        obj2.setData(data2);
+
+
         myObjects.add(obj2);
 
         return myObjects;
@@ -54,6 +67,7 @@ public class GreetingController {
         private String author;
         private SubObject subObject;
         private List<String> tags;
+        private Map<String, Integer> data;
 
 
         public String getMethod(){
@@ -95,6 +109,15 @@ public class GreetingController {
         public void setTags(List<String> tags){
             this.tags = tags;
         }
+
+        public Map<String, Integer> getData(){
+            return data;
+        }
+
+        public void setData(Map<String, Integer> data){
+            this.data = data;
+        }
+
     }
 
     public static class SubObject {
