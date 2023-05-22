@@ -34,6 +34,9 @@ public class GreetingController {
         data1.put("key2", 2);
         obj1.setData(data1);
 
+        CustomEnum customEnum1 = CustomEnum.VALUE1;
+        obj1.setCustomEnum(customEnum1);
+
         myObjects.add(obj1);
 
         MyObject obj2 = new MyObject();
@@ -55,6 +58,8 @@ public class GreetingController {
         data2.put("key4", 4);
         obj2.setData(data2);
 
+        CustomEnum customEnum2 = CustomEnum.VALUE2;
+        obj2.setCustomEnum(customEnum2);
 
         myObjects.add(obj2);
 
@@ -68,6 +73,7 @@ public class GreetingController {
         private SubObject subObject;
         private List<String> tags;
         private Map<String, Integer> data;
+        private CustomEnum customEnum;
 
 
         public String getMethod(){
@@ -118,6 +124,13 @@ public class GreetingController {
             this.data = data;
         }
 
+        public CustomEnum getCustomEnum() {
+            return customEnum;
+        }
+
+        public void setCustomEnum(CustomEnum customEnum) {
+            this.customEnum = customEnum;
+        }
     }
 
     public static class SubObject {
@@ -130,5 +143,11 @@ public class GreetingController {
         public void setDescription(String description) {
             this.description = description;
         }
+    }
+
+    public enum CustomEnum {
+        VALUE1,
+        VALUE2,
+        VALUE3
     }
 }
