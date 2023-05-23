@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cai_gen_tan
+    username: kelvin
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update # Set the desired Hibernate behavior for schema generation
+    show-sql: true # Set to true to display SQL statements in the console
+
+server:
+  port: 8080 # Set the desired port number for your application
+
