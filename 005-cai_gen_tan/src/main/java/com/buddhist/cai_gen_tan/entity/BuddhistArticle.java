@@ -12,6 +12,9 @@ public class BuddhistArticle {
     private String title;
     private String content;
 
+    public BuddhistArticle(Long id, String chiContent, String engContent) {
+    }
+
     public Long getId(){
         return id;
     }
