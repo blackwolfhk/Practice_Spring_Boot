@@ -1,6 +1,6 @@
 package com.buddhist.cai_gen_tan.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "articles")
@@ -16,10 +16,17 @@ public class BuddhistArticle {
     @Column(name = "eng_content")
     private String engContent;
 
-    @Column(name = "title")
-    private String title;
+    // Default constructor
+    public BuddhistArticle() {
+    }
 
-    // Getters and setters
+    // Parameterized constructor
+    public BuddhistArticle(String chiContent, String engContent) {
+        this.chiContent = chiContent;
+        this.engContent = engContent;
+    }
+
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -42,13 +49,5 @@ public class BuddhistArticle {
 
     public void setEngContent(String engContent) {
         this.engContent = engContent;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 }

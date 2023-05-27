@@ -6,43 +6,47 @@ import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 @Service
 public class ArticleMigrationService {
 
-    private final String EXCEL_FILE_PATH = "path/to/excel/file.xlsx";
-
     @Autowired
     private BuddhistArticleRepository articleRepository;
 
-    public void migrateArticlesFromExcel() {
-        try (Workbook workbook = WorkbookFactory.create(new FileInputStream(new File(EXCEL_FILE_PATH)))) {
-            Sheet sheet = workbook.getSheetAt(0);
+    public void performMigration(String excelFilePath) {
+        try {
+            FileInputStream file = new FileInputStream(excelFilePath);
+            Workbook workbook = WorkbookFactory.create(file);
+            Sheet sheet = workbook.getSheetAt(0); // Assuming the data is in the first sheet
+
+            List<BuddhistArticle> articleList = new ArrayList<>();
+
             Iterator<Row> rowIterator = sheet.iterator();
+            // Skip the header row
+            if (rowIterator.hasNext()) {
+                rowIterator.next();
+            }
 
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
                 BuddhistArticle article = new BuddhistArticle();
+                article.setId((long) row.getCell(0).getNumericCellValue());
+                article.setChiContent(row.getCell(1).getStringCellValue());
+                article.setEngContent(row.getCell(2).getStringCellValue());
 
-                Cell idCell = row.getCell(0);
-                Cell chiContentCell = row.getCell(1);
-                Cell engContentCell = row.getCell(2);
-
-                long id = (long) idCell.getNumericCellValue();
-                String chiContent = chiContentCell.getStringCellValue();
-                String engContent = engContentCell.getStringCellValue();
-
-                article.setId(id);
-                article.setChiContent(chiContent);
-                article.setEngContent(engContent);
-
-                articleRepository.save(article);
+                articleList.add(article);
             }
+
+            file.close();
+
+            articleRepository.saveAll(articleList);
         } catch (IOException e) {
+            // Handle any exceptions that occur during file reading or database saving
             e.printStackTrace();
         }
     }

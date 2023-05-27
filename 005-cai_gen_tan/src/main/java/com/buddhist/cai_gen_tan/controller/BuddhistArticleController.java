@@ -12,8 +12,12 @@ import java.util.List;
 @RequestMapping("/articles")
 public class BuddhistArticleController {
 
+    private final BuddhistArticleRepository articleRepository;
+
     @Autowired
-    private BuddhistArticleRepository articleRepository;
+    public BuddhistArticleController(BuddhistArticleRepository articleRepository) {
+        this.articleRepository = articleRepository;
+    }
 
     @GetMapping
     public List<BuddhistArticle> getAllArticles() {
@@ -33,13 +37,13 @@ public class BuddhistArticleController {
 
     @PutMapping("/{id}")
     public BuddhistArticle updateArticle(@PathVariable Long id, @RequestBody BuddhistArticle updatedArticle) {
-        return articleRepository.findById(id)
-                .map(existingArticle -> {
-                    existingArticle.setChiContent(updatedArticle.getChiContent());
-                    existingArticle.setEngContent(updatedArticle.getEngContent());
-                    return articleRepository.save(existingArticle);
-                })
+        BuddhistArticle existingArticle = articleRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Article not found with id: " + id));
+
+        existingArticle.setChiContent(updatedArticle.getChiContent());
+        existingArticle.setEngContent(updatedArticle.getEngContent());
+
+        return articleRepository.save(existingArticle);
     }
 
     @DeleteMapping("/{id}")
