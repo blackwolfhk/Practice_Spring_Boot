@@ -4,43 +4,46 @@ import com.buddhist.cai_gen_tan.entity.BuddhistArticle;
 import com.buddhist.cai_gen_tan.repository.BuddhistArticleRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Iterator;
 
+@Service
 public class ArticleMigrationService {
+
+    private final String EXCEL_FILE_PATH = "path/to/excel/file.xlsx";
 
     @Autowired
     private BuddhistArticleRepository articleRepository;
 
-    public void migrateExcelData(String filePath) throws IOException {
-        FileInputStream fis = new FileInputStream(filePath);
-        Workbook workbook = WorkbookFactory.create(fis);
+    public void migrateArticlesFromExcel() {
+        try (Workbook workbook = WorkbookFactory.create(new FileInputStream(new File(EXCEL_FILE_PATH)))) {
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rowIterator = sheet.iterator();
 
-        // Assuming the data is in the first sheet of the workbook
-        Sheet sheet = workbook.getSheetAt(0);
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                BuddhistArticle article = new BuddhistArticle();
 
-        // Iterate over rows
-        for (Row row : sheet) {
-            // Assuming the data starts from the second row
-            if (row.getRowNum() > 0) {
                 Cell idCell = row.getCell(0);
                 Cell chiContentCell = row.getCell(1);
                 Cell engContentCell = row.getCell(2);
 
-                // Extract the values from cells
-                Long id = (long) idCell.getNumericCellValue();
+                long id = (long) idCell.getNumericCellValue();
                 String chiContent = chiContentCell.getStringCellValue();
                 String engContent = engContentCell.getStringCellValue();
 
-                // Create an instance of BuddhistArticle and save it to the database
-                BuddhistArticle article = new BuddhistArticle(id, chiContent, engContent);
+                article.setId(id);
+                article.setChiContent(chiContent);
+                article.setEngContent(engContent);
+
                 articleRepository.save(article);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        // Close the workbook and input stream
-        workbook.close();
-        fis.close();
     }
 }

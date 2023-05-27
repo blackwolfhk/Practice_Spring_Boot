@@ -8,6 +8,9 @@ spring:
       ddl-auto: update # Set the desired Hibernate behavior for schema generation
     show-sql: true # Set to true to display SQL statements in the console
 
+  flyway:
+    baseline-on-migrate: true # Add this line to enable baseline on migrate
+
 server:
   port: 8080 # Set the desired port number for your application
 

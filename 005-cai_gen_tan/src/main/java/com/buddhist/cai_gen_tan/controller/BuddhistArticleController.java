@@ -16,12 +16,12 @@ public class BuddhistArticleController {
     private BuddhistArticleRepository articleRepository;
 
     @GetMapping
-    public List<BuddhistArticle> getAllArticles(){
+    public List<BuddhistArticle> getAllArticles() {
         return articleRepository.findAll();
     }
 
     @GetMapping("/{id}")
-    public BuddhistArticle getArticleById(@PathVariable Long id){
+    public BuddhistArticle getArticleById(@PathVariable Long id) {
         return articleRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Article not found with id: " + id));
     }
@@ -32,25 +32,24 @@ public class BuddhistArticleController {
     }
 
     @PutMapping("/{id}")
-    public BuddhistArticle updateArticle(@PathVariable Long id, @RequestBody BuddhistArticle updatedArticle){
-        BuddhistArticle existingArticle = articleRepository.findById(id)
+    public BuddhistArticle updateArticle(@PathVariable Long id, @RequestBody BuddhistArticle updatedArticle) {
+        return articleRepository.findById(id)
+                .map(existingArticle -> {
+                    existingArticle.setChiContent(updatedArticle.getChiContent());
+                    existingArticle.setEngContent(updatedArticle.getEngContent());
+                    return articleRepository.save(existingArticle);
+                })
                 .orElseThrow(() -> new NotFoundException("Article not found with id: " + id));
-
-        existingArticle.setTitle(updatedArticle.getTitle());
-        existingArticle.setContent(updatedArticle.getContent());
-
-        return articleRepository.save(existingArticle);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteArticle(@PathVariable Long id){
+    public void deleteArticle(@PathVariable Long id) {
         articleRepository.deleteById(id);
     }
 
-    // Custom exception class
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public static class NotFoundException extends RuntimeException {
-        public NotFoundException(String message){
+        public NotFoundException(String message) {
             super(message);
         }
     }
