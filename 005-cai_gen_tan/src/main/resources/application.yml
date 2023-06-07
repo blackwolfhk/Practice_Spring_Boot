@@ -13,4 +13,3 @@ spring:
 
 server:
   port: 8080 # Set the desired port number for your application
-
